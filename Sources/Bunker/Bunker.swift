@@ -39,8 +39,12 @@ public class Bunker {
     
     private lazy var persistentContainer: NSPersistentContainer = {
         if containerName == "" {
-            containerName = delegate?.needsPersistentContainerName() ?? "Model"
-            print("Warning: No persistent container name has been specified. Bunker will attempt to use the name \"Model\", but if your actual model name does not match expect to see a crash momentarily.")
+            if let delegatedName = delegate?.needsPersistentContainerName() {
+                containerName = delegatedName
+            } else {
+                containerName = "Model"
+                print("Warning: No persistent container name has been specified. Bunker will attempt to use the name \"Model\", but if your actual model name does not match expect to see a crash momentarily.")
+            }
         }
         
         let container = NSPersistentContainer(name: containerName)
@@ -80,6 +84,7 @@ public class Bunker {
     public func initializeDatabase(_ setup: @escaping () -> Void) {
         guard hasInitializedDatabase == false else { return }
         setup()
+        save()
         hasInitializedDatabase = true
     }
     

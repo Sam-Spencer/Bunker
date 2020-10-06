@@ -19,16 +19,16 @@ public class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFet
     // MARK: - Initializer
     
     public init(sortKey1: String? = nil,
-         sortKey2: String? = nil,
-         sectionNameKeyPath: String? = nil,
-         predicateKey: String? = nil,
-         predicateObject: NSManagedObject? = nil,
-         sortAscending1: Bool? = nil,
-         sortAscending2: Bool? = nil,
-         predicate: NSPredicate? = nil,
-         entity: NSEntityDescription? = nil) {
+                sortKey2: String? = nil,
+                sectionNameKeyPath: String? = nil,
+                predicateKey: String? = nil,
+                predicateObject: NSManagedObject? = nil,
+                sortAscending1: Bool? = nil,
+                sortAscending2: Bool? = nil,
+                predicate: NSPredicate? = nil,
+                entity: NSEntityDescription? = nil) {
         
-        self.sortKey1 = sortKey1 ?? "order"
+        self.sortKey1 = sortKey1
         self.sortKey2 = sortKey2
         self.sectionNameKeyPath = sectionNameKeyPath
         self.predicateKey = predicateKey
@@ -48,7 +48,7 @@ public class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFet
     
     // MARK: - Private Properties
     
-    private var sortKey1: String = "order"
+    private var sortKey1: String? = nil
     private var sortKey2: String? = nil
     private var sectionNameKeyPath: String? = nil
     private var predicateKey: String? = nil
@@ -65,7 +65,7 @@ public class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFet
     // MARK: Fetch Modifiers
     
     public func sortKey1(_ sortKey1: String?) -> BunkerSource {
-        self.sortKey1 = sortKey1 ?? "order"
+        self.sortKey1 = sortKey1
         return self
     }
     
@@ -262,7 +262,7 @@ public class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFet
     
     // MARK: - Reorder helper
     
-    private func reorder(from source: IndexSet, to before: Int, within: [T] ) {
+    private func reorder(from source: IndexSet, to before: Int, within: [T], for key: String = "order") {
         let firstIndex = source.min()!
         let lastIndex = source.max()!
         
@@ -277,14 +277,14 @@ public class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFet
                     
                     // Re-order dragged items
                     for index in source {
-                        within[index].setValue(newOrder, forKey: "order")
+                        within[index].setValue(newOrder, forKey: key)
                         newOrder = newOrder + 1
                     }
                     
                     // Re-order non-dragged items
                     for rowToMove in firstRowToReorder..<lastRowToReorder {
                         if !source.contains(rowToMove) {
-                            within[rowToMove].setValue(newOrder, forKey: "order")
+                            within[rowToMove].setValue(newOrder, forKey: key)
                             newOrder = newOrder + 1
                         }
                     }
@@ -294,14 +294,14 @@ public class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFet
                     // Re-order non-dragged items
                     for rowToMove in firstRowToReorder...lastRowToReorder {
                         if !source.contains(rowToMove) {
-                            within[rowToMove].setValue(newOrder, forKey: "order")
+                            within[rowToMove].setValue(newOrder, forKey: key)
                             newOrder = newOrder + 1
                         }
                     }
                     
                     // Re-order dragged items
                     for index in source {
-                        within[index].setValue(newOrder, forKey: "order")
+                        within[index].setValue(newOrder, forKey: key)
                         newOrder = newOrder + 1
                     }
                 }

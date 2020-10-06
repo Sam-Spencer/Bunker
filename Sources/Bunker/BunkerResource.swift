@@ -36,6 +36,11 @@ extension NSManagedObject {
         return Self(context: Bunker.stack.context)
     }
     
+    public func update(_ block: @escaping () -> Void) {
+        block()
+        Bunker.stack.save()
+    }
+    
     public func delete() {
         Bunker.stack.context.delete(self)
     }
