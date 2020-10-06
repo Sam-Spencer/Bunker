@@ -9,16 +9,16 @@ import Foundation
 import Combine
 import CoreData
 
-class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
+public class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
     
     // MARK: Trivial publisher for our changes.
     
-    let objectWillChange = PassthroughSubject<Void, Never>()
+    public let objectWillChange = PassthroughSubject<Void, Never>()
     
     
     // MARK: - Initializer
     
-    init(sortKey1: String? = nil,
+    public init(sortKey1: String? = nil,
          sortKey2: String? = nil,
          sectionNameKeyPath: String? = nil,
          predicateKey: String? = nil,

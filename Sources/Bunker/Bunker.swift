@@ -10,13 +10,13 @@ import CoreData
 import UserDefault
 
 
-protocol BunkerRadio {
+public protocol BunkerRadio {
     func needsPersistentContainerName() -> String
 }
 
 
 /// A shared Core Data stack and manager.
-class Bunker {
+public class Bunker {
     
     
     // MARK: - Properties
@@ -29,7 +29,7 @@ class Bunker {
     
     /// The name of your app's persistent container.
     /// This must be set prior to accessing the container.
-    var containerName: String = ""
+    public var containerName: String = ""
     
     /// Determines whether or not the initial routine has been completed.
     @UserDefault("Bunker.stack.hasInitializedDatabase") private var hasInitializedDatabase: Bool? = false
@@ -90,7 +90,7 @@ class Bunker {
     
     // MARK: - Managed Object Helpers
     
-    class func executeBlockAndCommit(_ block: @escaping () -> Void) {
+    public class func executeBlockAndCommit(_ block: @escaping () -> Void) {
         block()
         Bunker.stack.save()
     }

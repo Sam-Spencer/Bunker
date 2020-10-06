@@ -18,7 +18,7 @@ extension NSManagedObject {
         return NSFetchRequest<NSFetchRequestResult>(entityName: name)
     }
     
-    class func count() -> Int {
+    public class func count() -> Int {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = self.fetchRequest()
         
         do {
@@ -32,7 +32,7 @@ extension NSManagedObject {
     
     // MARK: - Creation and Deletion
     
-    class func create() -> Self {
+    public class func create() -> Self {
         return Self(context: Bunker.stack.context)
     }
     

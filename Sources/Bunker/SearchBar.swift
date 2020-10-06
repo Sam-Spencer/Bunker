@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 
-struct SearchBar: UIViewRepresentable {
+public struct SearchBar: UIViewRepresentable {
     
-    @Binding var text: String
-    @Binding var predicate: NSPredicate?
+    @Binding public var text: String
+    @Binding public var predicate: NSPredicate?
     
-    class Coordinator: NSObject, UISearchBarDelegate {
+    public class Coordinator: NSObject, UISearchBarDelegate {
         
         @Binding var text: String
         @Binding var predicate: NSPredicate?
@@ -24,21 +24,21 @@ struct SearchBar: UIViewRepresentable {
         }
         
         // UISearchBarDelegate
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             text = searchText
             predicate = NSPredicate(format: "name contains[c] %@", searchText)
         }
         
-        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
     
-    func makeCoordinator() -> SearchBar.Coordinator {
+    public func makeCoordinator() -> SearchBar.Coordinator {
         return Coordinator(text: $text, predicate: $predicate)
     }
     
-    func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
+    public func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
         let searchBar = UISearchBar(frame: .zero)
         searchBar.delegate = context.coordinator
         searchBar.autocapitalizationType = .sentences
@@ -47,7 +47,7 @@ struct SearchBar: UIViewRepresentable {
         return searchBar
     }
     
-    func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
+    public func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
         uiView.text = text
     }
     

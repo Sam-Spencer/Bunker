@@ -8,9 +8,9 @@
 import Foundation
 import CoreData
 
-class BunkerSearch {
+public class BunkerSearch {
     
-    class func searchPredicate(for searchTerm: String) -> NSPredicate {
+    public class func searchPredicate(for searchTerm: String) -> NSPredicate {
         let newPredicate = NSPredicate(format: "name contains[c] %@", searchTerm)
         return newPredicate
     }
