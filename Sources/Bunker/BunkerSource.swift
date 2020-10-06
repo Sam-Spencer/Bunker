@@ -121,14 +121,19 @@ public class BunkerSource<T: NSManagedObject>: NSObject, ObservableObject, NSFet
             fetchRequest.entity = entity
         }
         
-        if let sortKey2 = self.sortKey2 {
-            let sortDescriptor1 = NSSortDescriptor(key: self.sortKey1, ascending: self.sortAscending1)
-            let sortDescriptor2 = NSSortDescriptor(key: sortKey2, ascending: self.sortAscending2)
-            fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
-        } else {
-            let sortDescriptor = NSSortDescriptor(key: self.sortKey1, ascending: self.sortAscending1)
-            fetchRequest.sortDescriptors = [sortDescriptor]
+        var sortDescriptors: [NSSortDescriptor]? = []
+        
+        if let sortKey1 = self.sortKey1 {
+            let sortDescriptor1 = NSSortDescriptor(key: sortKey1, ascending: self.sortAscending1)
+            sortDescriptors?.append(sortDescriptor1)
         }
+        
+        if let sortKey2 = self.sortKey2 {
+            let sortDescriptor2 = NSSortDescriptor(key: sortKey2, ascending: self.sortAscending2)
+            sortDescriptors?.append(sortDescriptor2)
+        }
+        
+        fetchRequest.sortDescriptors = sortDescriptors
         
         if let predicate = self.predicate {
             fetchRequest.predicate = predicate
